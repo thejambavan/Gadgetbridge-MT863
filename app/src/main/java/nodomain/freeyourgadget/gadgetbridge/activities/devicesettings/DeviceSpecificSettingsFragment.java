@@ -29,8 +29,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
@@ -55,14 +53,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_SCHEDULED;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_SWIPE_UNLOCK;
 
@@ -78,7 +73,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         args.putIntArray("supportedSettings", supportedSettings);
         setArguments(args);
     }
-
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -128,182 +122,18 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
 
     private void setChangeListener() {
         Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
-        String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
-        boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 
-        final Preference disconnectNotificationStart = findPreference(PREF_DISCONNECT_NOTIFICATION_START);
-        if (disconnectNotificationStart != null) {
-            disconnectNotificationStart.setEnabled(disconnectNotificationScheduled);
-            disconnectNotificationStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_START);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference disconnectNotificationEnd = findPreference(PREF_DISCONNECT_NOTIFICATION_END);
-        if (disconnectNotificationEnd != null) {
-            disconnectNotificationEnd.setEnabled(disconnectNotificationScheduled);
-            disconnectNotificationEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_END);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference disconnectNotification = findPreference(PREF_DISCONNECT_NOTIFICATION);
-        if (disconnectNotification != null) {
-            disconnectNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-
-                    Objects.requireNonNull(disconnectNotificationStart).setEnabled(scheduled);
-                    Objects.requireNonNull(disconnectNotificationEnd).setEnabled(scheduled);
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION);
-                        }
-                    });
-                    return true;
-                }
-            });
-
-        }
-
-        String nightModeState = prefs.getString(MiBandConst.PREF_NIGHT_MODE, PREF_NIGHT_MODE_OFF);
-        boolean nightModeScheduled = nightModeState.equals(PREF_NIGHT_MODE_SCHEDULED);
-
-        final Preference nightModeStart = findPreference(PREF_NIGHT_MODE_START);
-        if (nightModeStart != null) {
-            nightModeStart.setEnabled(nightModeScheduled);
-            nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_START);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference nightModeEnd = findPreference(PREF_NIGHT_MODE_END);
-        if (nightModeEnd != null) {
-            nightModeEnd.setEnabled(nightModeScheduled);
-            nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_END);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference nightMode = findPreference(PREF_NIGHT_MODE);
-        if (nightMode != null) {
-
-            nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean scheduled = PREF_NIGHT_MODE_SCHEDULED.equals(newVal.toString());
-
-                    Objects.requireNonNull(nightModeStart).setEnabled(scheduled);
-                    Objects.requireNonNull(nightModeEnd).setEnabled(scheduled);
-
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-
-        String doNotDisturbState = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, PREF_DO_NOT_DISTURB_OFF);
-        boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
-
-        final Preference doNotDisturbStart = findPreference(PREF_DO_NOT_DISTURB_START);
-        if (doNotDisturbStart != null) {
-            doNotDisturbStart.setEnabled(doNotDisturbScheduled);
-            doNotDisturbStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_START);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference doNotDisturbEnd = findPreference(PREF_DO_NOT_DISTURB_END);
-        if (doNotDisturbEnd != null) {
-            doNotDisturbEnd.setEnabled(doNotDisturbScheduled);
-            doNotDisturbEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_END);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference doNotDisturb = findPreference(PREF_DO_NOT_DISTURB);
-        if (doNotDisturb != null) {
-            doNotDisturb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-
-                    Objects.requireNonNull(doNotDisturbStart).setEnabled(scheduled);
-                    Objects.requireNonNull(doNotDisturbEnd).setEnabled(scheduled);
-
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
+        // TODO: Is there any reason we are not simply iterating over all properties on screen
+        //       and listing them manually one by one instead?
+        addPreferenceHandlerFor(PREF_DISCONNECT_NOTIFICATION);
+        addPreferenceHandlerFor(PREF_DISCONNECT_NOTIFICATION_START);
+        addPreferenceHandlerFor(PREF_DISCONNECT_NOTIFICATION_END);
+        addPreferenceHandlerFor(PREF_NIGHT_MODE);
+        addPreferenceHandlerFor(PREF_NIGHT_MODE_START);
+        addPreferenceHandlerFor(PREF_NIGHT_MODE_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_START);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_END);
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DATEFORMAT);
@@ -313,79 +143,27 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_WEARLOCATION);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
         addPreferenceHandlerFor(PREF_TIMEFORMAT);
+        addPreferenceHandlerFor(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
+        addPreferenceHandlerFor(PREF_ACTIVATE_DISPLAY_ON_LIFT);
+        addPreferenceHandlerFor(PREF_DISPLAY_ON_LIFT_START);
+        addPreferenceHandlerFor(PREF_DISPLAY_ON_LIFT_END);
 
-        String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
-        boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
-
+        // This is a special case that can't be handled inside the XML files - a preference from one
+        // file depends on another
+        // TODO: This didn't update properly before I touched it when changing PREF_ACTIVATE_DISPLAY_ON_LIFT
+        //       and still doesn't (probably because that property is in a separate subscreen). It does work
+        //       upon initial open of the settings though.
         final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-        if (rotateWristCycleInfo != null) {
-            rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(displayOnLiftState));
-            rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
-        if (displayOnLiftStart != null) {
-            displayOnLiftStart.setEnabled(displayOnLiftScheduled);
-            displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_START);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
-        final Preference displayOnLiftEnd = findPreference(PREF_DISPLAY_ON_LIFT_END);
-        if (displayOnLiftEnd != null) {
-            displayOnLiftEnd.setEnabled(displayOnLiftScheduled);
-            displayOnLiftEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_END);
-                        }
-                    });
-                    return true;
-                }
-            });
-        }
-
         final Preference displayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-        if (displayOnLift != null) {
+        if (rotateWristCycleInfo != null && displayOnLift != null) {
+            String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
+            rotateWristCycleInfo.onDependencyChanged(displayOnLift, PREF_DO_NOT_DISTURB_OFF.equals(displayOnLiftState));
+            final Preference.OnPreferenceChangeListener displayOnLiftDefaultChangeListener = displayOnLift.getOnPreferenceChangeListener();
             displayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
-                    Objects.requireNonNull(displayOnLiftStart).setEnabled(scheduled);
-                    Objects.requireNonNull(displayOnLiftEnd).setEnabled(scheduled);
-                    if (rotateWristCycleInfo != null) {
-                        rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
-                    }
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-                        }
-                    });
-                    return true;
+                    rotateWristCycleInfo.onDependencyChanged(displayOnLift, PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
+                    return displayOnLiftDefaultChangeListener.onPreferenceChange(preference, newVal);
                 }
             });
         }

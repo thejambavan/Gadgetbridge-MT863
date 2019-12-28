@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceScreen
         android:key="screen_disconnect_nofifiction"
@@ -10,21 +11,25 @@
         <!-- workaround for missing toolbar -->
         <PreferenceCategory android:title="@string/prefs_disconnect_notification" />
 
-        <ListPreference
+        <nodomain.freeyourgadget.gadgetbridge.util.XListPreference
             android:defaultValue="@string/p_off"
             android:entries="@array/activate_display_on_lift"
             android:entryValues="@array/activate_display_on_lift_values"
             android:key="disconnect_notification"
             android:summary="%s"
+            app:dependentValue="@string/p_scheduled"
             android:title="@string/prefs_disconnect_notification" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="00:00"
             android:key="disconnect_notification_start"
+            android:dependency="disconnect_notification"
             android:title="@string/mi2_prefs_do_not_disturb_start" />
+
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="00:00"
             android:key="disconnect_notification_end"
+            android:dependency="disconnect_notification"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
 
     </PreferenceScreen>
