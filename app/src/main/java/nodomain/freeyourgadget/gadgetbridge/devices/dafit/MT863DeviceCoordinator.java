@@ -90,17 +90,17 @@ public class MT863DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new MT863SampleProvider(device, session);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class MT863DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        return false;
+        return true;
     }
 
     @Override
