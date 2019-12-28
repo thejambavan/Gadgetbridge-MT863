@@ -38,12 +38,15 @@ public class GBDaoGenerator {
     private static final String SAMPLE_STEPS = "steps";
     private static final String SAMPLE_RAW_KIND = "rawKind";
     private static final String SAMPLE_HEART_RATE = "heartRate";
+    private static final String SAMPLE_BLOOD_PRESSURE_SYSTOLIC = "bloodPressureSystolic";
+    private static final String SAMPLE_BLOOD_PRESSURE_DIASTOLIC = "bloodPressureDiastolic";
+    private static final String SAMPLE_BLOOD_OXIDATION = "bloodOxidation";
     private static final String TIMESTAMP_FROM = "timestampFrom";
     private static final String TIMESTAMP_TO = "timestampTo";
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(32, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(33, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -82,6 +85,8 @@ public class GBDaoGenerator {
         addCasioGBX100Sample(schema, user, device);
 
         addHybridHRActivitySample(schema, user, device);
+        addDaFitActivitySample(schema, user, device);
+
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
 
@@ -220,6 +225,15 @@ public class GBDaoGenerator {
 
     private static void addHeartRateProperties(Entity activitySample) {
         activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+    }
+
+    private static void addBloodPressureProperies(Entity activitySample) {
+        activitySample.addIntProperty(SAMPLE_BLOOD_PRESSURE_SYSTOLIC).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_BLOOD_PRESSURE_DIASTOLIC).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+    }
+
+    private static void addBloodOxidationProperies(Entity activitySample) {
+        activitySample.addIntProperty(SAMPLE_BLOOD_OXIDATION).notNull().codeBeforeGetterAndSetter(OVERRIDE);
     }
 
     private static Entity addPebbleHealthActivitySample(Schema schema, Entity user, Entity device) {
@@ -480,6 +494,22 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addDaFitActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "DaFitActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE).codeBeforeGetter("@Override\n    public int getRawIntensity() {\n        return getSteps();\n    }\n\n");
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("dataSource").notNull();
+        activitySample.addIntProperty("caloriesBurnt").notNull();
+        activitySample.addIntProperty("distanceMeters").notNull();
+        addHeartRateProperties(activitySample);
+        addBloodPressureProperies(activitySample);
+        addBloodOxidationProperies(activitySample);
+        activitySample.addIntProperty("batteryLevel").notNull();
         return activitySample;
     }
 
