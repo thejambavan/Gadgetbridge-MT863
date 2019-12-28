@@ -125,7 +125,7 @@ public class MT863DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
