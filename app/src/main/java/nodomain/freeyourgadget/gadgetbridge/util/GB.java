@@ -89,6 +89,10 @@ public class GB {
     public static final String ACTION_SET_PROGRESS_TEXT = "GB_Set_Progress_Text";
     public static final String ACTION_SET_INFO_TEXT = "GB_Set_Info_Text";
 
+    public static final String ACTION_CONFIGURATION_READ = "GB_Configuration_Read";
+    public static final String CONFIGURATION_READ_CONFIG = "config";
+    public static final String CONFIGURATION_READ_EVENT = "event";
+
     private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

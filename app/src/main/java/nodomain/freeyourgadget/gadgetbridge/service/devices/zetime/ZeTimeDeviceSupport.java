@@ -1949,6 +1949,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReadConfiguration(String config) {
+        if (!config.equals("do_it"))
+            return;
+
         try {
             TransactionBuilder builder = performInitialized("readConfiguration");
 
