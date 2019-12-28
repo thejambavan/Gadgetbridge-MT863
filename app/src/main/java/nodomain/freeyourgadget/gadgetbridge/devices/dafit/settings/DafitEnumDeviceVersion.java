@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa
+/*  Copyright (C) 2019 krzys_h
 
     This file is part of Gadgetbridge.
 
@@ -14,15 +14,20 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
+package nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+public enum DafitEnumDeviceVersion implements DafitEnum {
+    CHINESE_EDITION((byte)0),
+    INTERNATIONAL_EDITION((byte)1);
 
-public class DeviceSettingsPreferenceConst {
-    public static final String PREF_DATEFORMAT = "dateformat";
-    public static final String PREF_TIMEFORMAT = "timeformat";
-    public static final String PREF_MEASUREMENTSYSTEM = SettingsActivity.PREF_MEASUREMENT_SYSTEM;
-    public static final String PREF_WEARLOCATION = "wearlocation";
-    public static final String PREF_SCREEN_ORIENTATION = "screen_orientation";
-    public static final String PREF_RESERVER_ALARMS_CALENDAR = "reserve_alarms_calendar";
+    public final byte value;
+
+    DafitEnumDeviceVersion(byte value) {
+        this.value = value;
+    }
+
+    @Override
+    public byte value() {
+        return value;
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Andreas Shimokawa
+/*  Copyright (C) 2019 krzys_h
 
     This file is part of Gadgetbridge.
 
@@ -14,15 +14,22 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
+package nodomain.freeyourgadget.gadgetbridge.devices.dafit.settings;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+public class DafitSettingByte extends DafitSetting<Byte> {
+    public DafitSettingByte(String name, byte cmdQuery, byte cmdSet) {
+        super(name, cmdQuery, cmdSet);
+    }
 
-public class DeviceSettingsPreferenceConst {
-    public static final String PREF_DATEFORMAT = "dateformat";
-    public static final String PREF_TIMEFORMAT = "timeformat";
-    public static final String PREF_MEASUREMENTSYSTEM = SettingsActivity.PREF_MEASUREMENT_SYSTEM;
-    public static final String PREF_WEARLOCATION = "wearlocation";
-    public static final String PREF_SCREEN_ORIENTATION = "screen_orientation";
-    public static final String PREF_RESERVER_ALARMS_CALENDAR = "reserve_alarms_calendar";
+    @Override
+    public byte[] encode(Byte value) {
+        return new byte[] { value };
+    }
+
+    @Override
+    public Byte decode(byte[] data) {
+        if (data.length != 1)
+            throw new IllegalArgumentException("Wrong data length, should be 1, was " + data.length);
+        return data[0];
+    }
 }
