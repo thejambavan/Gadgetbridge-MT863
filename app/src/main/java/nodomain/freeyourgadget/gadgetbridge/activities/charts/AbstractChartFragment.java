@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,8 +67,10 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.dafit.MT863SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.UserInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MT863ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -450,6 +453,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             List<Entry> notWornEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
+            List<Entry> batteryEntries = new ArrayList<>(numEntries);
             List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
             int lastHrSampleIndex = -1;
             HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
@@ -538,6 +542,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                     heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
                     lastHrSampleIndex = ts;
                 }
+                if (sample.getBatteryLevel() != ActivitySample.NOT_MEASURED)
+                {
+                    batteryEntries.add(createLineEntry((float)sample.getBatteryLevel() / 100.0f, ts));
+                }
 
                 String xLabel = "";
                 if (annotate) {
@@ -575,12 +583,15 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             lineDataSets.add(lightSleepSet);
             LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, akNotWorn.label);
             lineDataSets.add(notWornSet);
-
             if (hr && heartrateEntries.size() > 0) {
                 LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-
                 lineDataSets.add(heartrateSet);
             }
+            if (batteryEntries.size() > 0) {
+                LineDataSet batterySet = createBatterySet(batteryEntries, "Battery level");
+                lineDataSets.add(batterySet);
+            }
+
             lineData = new LineData(lineDataSets);
 
 //            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
@@ -647,6 +658,19 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         set1.setDrawValues(true);
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        return set1;
+    }
+
+
+    protected LineDataSet createBatterySet(List<Entry> values, String label) {
+        LineDataSet set1 = new LineDataSet(values, label);
+        set1.setLineWidth(2.2f);
+        set1.setColor(Color.argb(255, 0, 255, 0));
+        set1.setMode(LineDataSet.Mode.LINEAR);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(true);
+        set1.setValueTextColor(CHART_TEXT_COLOR);
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         return set1;
     }
 
