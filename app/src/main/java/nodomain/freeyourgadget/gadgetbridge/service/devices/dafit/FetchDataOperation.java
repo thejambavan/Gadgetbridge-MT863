@@ -41,6 +41,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MT863DeviceSupport
 
     private boolean[] receivedSteps = new boolean[3];
     private boolean[] receivedSleep = new boolean[3];
+    private boolean receivedTrainingData = false;
 
     private DafitPacketIn packetIn = new DafitPacketIn();
 
@@ -63,6 +64,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MT863DeviceSupport
         getSupport().sendPacket(builder, DafitPacketOut.buildPacket(DafitConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { DafitConstants.ARG_SYNC_YESTERDAY_STEPS }));
         getSupport().sendPacket(builder, DafitPacketOut.buildPacket(DafitConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { DafitConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS }));
         builder.read(getCharacteristic(DafitConstants.UUID_CHARACTERISTIC_STEPS));
+        getSupport().sendPacket(builder, DafitPacketOut.buildPacket(DafitConstants.CMD_QUERY_MOVEMENT_HEART_RATE, new byte[] { }));
         builder.queue(getQueue());
 
         updateProgressAndCheckFinish();
@@ -153,6 +155,10 @@ public class FetchDataOperation extends AbstractBTLEOperation<MT863DeviceSupport
                 return true;
             }
         }
+        if (packetType == DafitConstants.CMD_QUERY_MOVEMENT_HEART_RATE) {
+            decodeTrainingData(payload);
+            return true;
+        }
         return false;
     }
 
@@ -170,16 +176,25 @@ public class FetchDataOperation extends AbstractBTLEOperation<MT863DeviceSupport
         updateProgressAndCheckFinish();
     }
 
+    private void decodeTrainingData(byte[] data)
+    {
+        getSupport().handleTrainingData(data);
+        receivedTrainingData = true;
+        updateProgressAndCheckFinish();
+    }
+
     private void updateProgressAndCheckFinish()
     {
         int count = 0;
-        int total = receivedSteps.length + receivedSleep.length;
+        int total = receivedSteps.length + receivedSleep.length + 1;
         for(int i = 0; i < receivedSteps.length; i++)
             if (receivedSteps[i])
                 ++count;
         for(int i = 0; i < receivedSleep.length; i++)
             if (receivedSleep[i])
                 ++count;
+        if (receivedTrainingData)
+            ++count;
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, 100 * count / total, getContext());
         if (count == total)
             operationFinished();
