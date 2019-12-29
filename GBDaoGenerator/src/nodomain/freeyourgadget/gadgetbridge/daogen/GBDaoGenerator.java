@@ -509,7 +509,7 @@ public class GBDaoGenerator {
         addHeartRateProperties(activitySample);
         addBloodPressureProperies(activitySample);
         addBloodOxidationProperies(activitySample);
-        activitySample.addIntProperty("batteryLevel").notNull();
+        activitySample.addIntProperty("batteryLevel").notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
     }
 

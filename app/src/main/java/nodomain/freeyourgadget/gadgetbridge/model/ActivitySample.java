@@ -73,6 +73,12 @@ public interface ActivitySample extends TimeStamped {
     int getSteps();
 
     /**
+     * Returns the battery level at the time of this sample as a percentage in range 0-100
+     * or ActivitySample.NOT_MEASURED if no data is available
+     */
+    int getBatteryLevel();
+
+    /**
      * Returns the heart rate measured at the corresponding timestamp.
      * The value is returned in heart beats per minute, in the range from
      * 0-255, where 255 is an illegal value (e.g. due to a bad measurement)
