@@ -80,4 +80,31 @@ public class ArrayUtils {
     public static boolean startsWith(byte[] array, byte[] values) {
         return equals(array, values, 0);
     }
+
+    /**
+     * Check if a byte array contains all zeros
+     * @param array The array to check
+     * @param startIndex The starting position
+     * @param length Number of elements to check
+     * @return true if all checked elements were == 0, false otherwise
+     */
+    public static boolean isAllZeros(byte[] array, int startIndex, int length)
+    {
+        for(int i = startIndex; i < startIndex + length; i++)
+        {
+            if (array[i] != 0)
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if a byte array contains all zeros
+     * @param array The array to check
+     * @return true if all checked elements were == 0, false otherwise
+     */
+    public static boolean isAllZeros(byte[] array)
+    {
+        return isAllZeros(array, 0, array.length);
+    }
 }

@@ -376,6 +376,8 @@
     <string name="pref_write_logfiles">Write log files</string>
     <string name="initializing">Initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
+    <string name="busy_task_fetch_training_data">Fetching last training data</string>
+    <string name="busy_task_fetch_training_data_finished">Training data recieved!</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="prefs_wearside">Wearing left or right?</string>
     <string name="pref_screen_vibration_profile">Vibration profile</string>
