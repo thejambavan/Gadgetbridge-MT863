@@ -1153,4 +1153,5 @@
     <string name="qhybrid_title_file_management">File management</string>
     <string name="qhybrid_title_apps_management">Apps management</string>
     <string name="qhybrid_title_calibration">Calibration</string>
+    <string name="devicetype_pinetime_lite">Pinetime Lite</string>
 </resources>
