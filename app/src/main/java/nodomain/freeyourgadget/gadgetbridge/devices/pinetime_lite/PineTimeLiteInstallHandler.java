@@ -39,7 +39,7 @@ public class PineTimeLiteInstallHandler implements InstallHandler {
 
     private final Context context;
     private boolean valid = false;
-    private String version = "(Unknown version)";
+    private String version = "Lite 1.0.0";
 
     public PineTimeLiteInstallHandler(Uri uri, Context context) {
         this.context = context;
@@ -73,7 +73,7 @@ public class PineTimeLiteInstallHandler implements InstallHandler {
             return;
         }
 
-        if (device.getType() != DeviceType.PINETIME_JF || !device.isConnected()) {
+        if (device.getType() != DeviceType.PINETIME_LITE || !device.isConnected()) {
             installActivity.setInfoText("Firmware cannot be installed");
             installActivity.setInstallEnabled(false);
             return;
@@ -84,7 +84,7 @@ public class PineTimeLiteInstallHandler implements InstallHandler {
         installItem.setName("PineTime Lite firmware");
         installItem.setDetails(version);
 
-        installActivity.setInfoText(context.getString(R.string.firmware_install_warning, "(unknown)"));
+        installActivity.setInfoText(context.getString(R.string.firmware_install_warning, "1.0.0"));
         installActivity.setInstallEnabled(true);
         installActivity.setInstallItem(installItem);
         LOG.debug("Initialized PineTimeInstallHandler");

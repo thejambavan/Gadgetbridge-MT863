@@ -353,6 +353,9 @@
         <service
             android:name=".devices.pinetime.PineTimeDFUService"
             android:label="PineTime Nordic DFU service" />
+        <service
+            android:name=".devices.pinetime_lite.PineTimeLiteDFUService"
+            android:label="PineTime Nordic DFU service" />
 
         <receiver
             android:name=".externalevents.WeatherNotificationReceiver"

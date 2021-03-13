@@ -63,12 +63,12 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return true;
+        return false;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsAppsManagement() {
-        return false;
+        return true;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return false;
+        return true;
     }
 
     @Override
@@ -148,8 +148,8 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_timeformat,
-                //R.xml.devicesettings_liftwrist_display,
-                //R.xml.devicesettings_nightmode,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_nightmode,
         };
     }
 }

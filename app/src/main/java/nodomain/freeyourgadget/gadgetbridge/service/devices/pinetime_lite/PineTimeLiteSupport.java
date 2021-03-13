@@ -49,8 +49,8 @@ import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteConstants;
@@ -73,6 +73,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -85,7 +87,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeLiteSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final DeviceInfoProfile<PineTimeLiteSupport> deviceInfoProfile;
     private final int MaxNotificationLength = 100;
     private int firmwareVersionMajor = 0;
     private int firmwareVersionMinor = 0;
@@ -93,6 +94,77 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
 
     private boolean callIncoming = false;
 
+    private BluetoothGattCharacteristic writeCharacteristic = null;
+
+    private final DeviceInfoProfile<PineTimeLiteSupport> deviceInfoProfile;
+    private final BatteryInfoProfile<PineTimeLiteSupport> batteryInfoProfile;
+
+    public PineTimeLiteSupport() {
+        super(LOG);
+
+        addSupportedService(PineTimeLiteConstants.UUID_SERVICE_MSG_NOTIFICATION);
+        addSupportedService(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT);
+
+        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
+        //addSupportedService(GattService.UUID_SERVICE_IMMEDIATE_ALERT);
+        //addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
+
+        IntentListener mListenerInfo = new IntentListener() {
+            @Override
+            public void notify(Intent intent) {
+                String action = intent.getAction();
+                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
+                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+                }
+            }
+        };
+
+        deviceInfoProfile = new DeviceInfoProfile<>(this);
+        deviceInfoProfile.addListener(mListenerInfo);
+        addSupportedProfile(deviceInfoProfile);
+
+        AlertNotificationProfile<PineTimeLiteSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
+        addSupportedProfile(alertNotificationProfile);
+
+        IntentListener mListenerBatt = new IntentListener() {
+            @Override
+            public void notify(Intent intent) {
+                String action = intent.getAction();
+                if (BatteryInfoProfile.ACTION_BATTERY_INFO.equals(action)) {
+                    BatteryInfo info = intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO);
+                    GBDeviceEventBatteryInfo gbInfo = new GBDeviceEventBatteryInfo();
+                    gbInfo.level = (short) info.getPercentCharged();
+                    handleGBDeviceEvent(gbInfo);
+                }
+            }
+        };
+
+        batteryInfoProfile = new BatteryInfoProfile<>(this);
+        batteryInfoProfile.addListener(mListenerBatt);
+        addSupportedProfile(batteryInfoProfile);
+
+    }
+
+    @Override
+    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+
+        writeCharacteristic = getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION);
+
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        requestDeviceInfo(builder);
+        onSetTime();
+
+        BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT);
+        if (alertNotificationEventCharacteristic != null) {
+            builder.notify(alertNotificationEventCharacteristic, true);
+        }
+        setInitialized(builder);
+
+        batteryInfoProfile.requestBatteryInfo(builder);
+        return builder;
+    }
 
     /**
      * These are used to keep track when long strings haven't changed,
@@ -221,31 +293,6 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         }
     };
 
-    public PineTimeLiteSupport() {
-        super(LOG);
-        addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
-        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
-        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
-        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
-        addSupportedService(PineTimeLiteConstants.UUID_SERVICE_MUSIC_CONTROL);
-        addSupportedService(PineTimeLiteConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
-
-        deviceInfoProfile = new DeviceInfoProfile<>(this);
-        IntentListener mListener = new IntentListener() {
-            @Override
-            public void notify(Intent intent) {
-                String action = intent.getAction();
-                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
-                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-                }
-            }
-        };
-        deviceInfoProfile.addListener(mListener);
-        AlertNotificationProfile<PineTimeLiteSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
-        addSupportedProfile(alertNotificationProfile);
-        addSupportedProfile(deviceInfoProfile);
-    }
-
     @Override
     public boolean useAutoConnect() {
         return false;
@@ -254,7 +301,7 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
     private final int maxMsgLength = 255;
 
     private void sendMsgToWatch(TransactionBuilder builder, byte[] msg) {
-        BluetoothGattCharacteristic characteristic = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_NEW_ALERT);
+
         if (msg.length > maxMsgLength) {
             int msgpartlength = 0;
             byte[] msgpart = null;
@@ -269,11 +316,11 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
                     System.arraycopy(msg, msgpartlength, msgpart, 0, maxMsgLength);
                     msgpartlength += maxMsgLength;
                 }
-                builder.write(characteristic, msgpart);
+                builder.write(writeCharacteristic, msgpart);
             } while (msgpartlength < msg.length);
-            builder.write(characteristic, new byte[]{0x00});
+            builder.write(writeCharacteristic, new byte[]{0x00});
         } else {
-            builder.write(characteristic, msg);
+            builder.write(writeCharacteristic, msg);
         }
 
     }
@@ -425,27 +472,6 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending notification: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
-
-        /*
-        TransactionBuilder builder = new TransactionBuilder("notification");
-
-        String message = notificationSpec.body;
-        if(!IsFirmwareAtLeastVersion0_9()) {
-            // Firmware versions prior to 0.9 ignore the last characters of the notification message
-            // Add an space character so that the whole message will be displayed
-            message += " ";
-        }
-        NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, message);
-        AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
-        if(IsFirmwareAtLeastVersion0_9()) {
-            // InfiniTime 0.9+ support notification message of up to 100 characters
-            // Instead of 18 by default
-            profile.setMaxLength(MaxNotificationLength);
-        }
-        profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
-        builder.queue(getQueue());
-
-        */
 
     }
 
@@ -692,89 +718,11 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
     }
 
     @Override
-    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        requestDeviceInfo(builder);
-        onSetTime();
-        builder.notify(getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_EVENT), true);
-        BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
-        if (alertNotificationEventCharacteristic != null) {
-            builder.notify(alertNotificationEventCharacteristic, true);
-        }
-        setInitialized(builder);
-        //requestBatteryInfo(builder);
-        return builder;
-    }
-
-    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        try {
-            TransactionBuilder builder = performInitialized("send playback info");
-
-            if (musicSpec.album != null && !musicSpec.album.equals(lastAlbum)) {
-                lastAlbum = musicSpec.album;
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_ALBUM, musicSpec.album.getBytes());
-            }
-            if (musicSpec.track != null && !musicSpec.track.equals(lastTrack)) {
-                lastTrack = musicSpec.track;
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_TRACK, musicSpec.track.getBytes());
-            }
-            if (musicSpec.artist != null && !musicSpec.artist.equals(lastArtist)) {
-                lastArtist = musicSpec.artist;
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_ARTIST, musicSpec.artist.getBytes());
-            }
-
-            if (musicSpec.duration != MusicSpec.MUSIC_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_LENGTH_TOTAL, intToBytes(musicSpec.duration));
-            }
-            if (musicSpec.trackNr != MusicSpec.MUSIC_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_TRACK_NUMBER, intToBytes(musicSpec.trackNr));
-            }
-            if (musicSpec.trackCount != MusicSpec.MUSIC_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_TRACK_TOTAL, intToBytes(musicSpec.trackCount));
-            }
-
-            builder.queue(getQueue());
-        } catch (Exception e) {
-            LOG.error("Error sending music info", e);
-        }
     }
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        try {
-            TransactionBuilder builder = performInitialized("send playback state");
-
-            if (stateSpec.state != MusicStateSpec.STATE_UNKNOWN) {
-                byte[] state = new byte[1];
-                if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
-                    state[0] = 0x01;
-                }
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_STATUS, state);
-            }
-
-            if (stateSpec.playRate != MusicStateSpec.STATE_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_PLAYBACK_SPEED, intToBytes(stateSpec.playRate));
-            }
-
-            if (stateSpec.position != MusicStateSpec.STATE_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_POSITION, intToBytes(stateSpec.position));
-            }
-
-            if (stateSpec.repeat != MusicStateSpec.STATE_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_REPEAT, intToBytes(stateSpec.repeat));
-            }
-
-            if (stateSpec.shuffle != MusicStateSpec.STATE_UNKNOWN) {
-                safeWriteToCharacteristic(builder, PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_SHUFFLE, intToBytes(stateSpec.repeat));
-            }
-
-            builder.queue(getQueue());
-
-        } catch (Exception e) {
-            LOG.error("Error sending music state", e);
-        }
-
     }
 
     @Override
@@ -872,35 +820,7 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
             GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(value)),
                    ""
                     , context);
-        } else if (characteristicUUID.equals(PineTimeLiteConstants.UUID_CHARACTERISTICS_MUSIC_EVENT)) {
-            byte[] value = characteristic.getValue();
-            GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
-
-            switch (value[0]) {
-                case 0:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
-                    break;
-                case 1:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PAUSE;
-                    break;
-                case 3:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
-                    break;
-                case 4:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PREVIOUS;
-                    break;
-                case 5:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                    break;
-                case 6:
-                    deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
-                    break;
-                default:
-                    return false;
-            }
-            evaluateGBDeviceEvent(deviceEventMusicControl);
-            return true;
-        } else if (characteristicUUID.equals(PineTimeLiteConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT)) {
+        } else if (characteristicUUID.equals(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT)) {
             byte[] value = characteristic.getValue();
             GBDeviceEventCallControl deviceEventCallControl = new GBDeviceEventCallControl();
             switch (value[0]) {
