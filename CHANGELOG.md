@@ -1,5 +1,53 @@
 ### Changelog
 
+#### 0.56.0 (NEXT)
+* Initial support for UM25 voltage meters
+* Pebble: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Fixes for running firmware DN1.0.2.20 or newer (disable widget features, currently not supported)
+* Fossil Hybrid HR: Fix up/back navigation and add titles to Fossil specific menus
+* Add chart to each item in activity list
+* Add scroll view to activity detail to handle landscape view
+* Add header title to activity detail
+
+#### 0.55.0
+* InfiniTime: Fix music control for newer firmware releases
+* InfiniTime: Support call control and notification
+* Sony SWR12: Fix broken support since 0.53.0
+* Wasp-OS: Fix crash on Android 7 and lower
+* Add activity list dashboard summary calculations
+* Add battery level logging and graph activity
+* Use distinct icons for total step and distance values in widget
+* Flip and scale GPX canvas
+* Try to fix call notification on outgoing VoIP calls
+
+#### 0.54.1
+* Amazfit GTS2e: Really fix broken support
+* Amazfit Bip S Lite: Fix broken support (probably)
+
+#### 0.54.0
+* Initial support for Amazfit X
+* Fix missing menu items for GTS 2 Mini (some improvements also for other GTR2/GTS2 models) 
+* Amazfit GTS2e: Fix broken support
+
+#### 0.53.0
+* Initial support for wasp-os on nRF52 devices
+* Initial support for Zepp E
+* Initial support for Amazfit GTS 2 Mini
+* Initial support for Amazfit Neo
+* Initial support for Amazfit GTR/GTS 2e
+* Fossil Hybrid HR: Fix bug with unknown data
+* Fossil Hybrid HR: allow app management on watch from GB
+* Fossil Hybrid HR: enumerate apps on watch on every connect
+* Fossil Hybrid HR: Do not configure buttons in unauthenticated mode
+* Fossil Classic: Fix unknown wearing state
+* Fossil Classic: Allow synchronizing activity data
+* Amazfit Bip U: Fix sports activity summary
+* Huami: Add Strength Training activity type
+* Honor Imperial units settings in widget, Activity list and workouts
+* Show all eligible devices in Widget Configuration Activity
+* Also include step of not-worn samples in weekly step statistics
+
 #### 0.52.0
 * Amazfit Bip U Pro: Initial support
 * Amazfit GTS2: fix pairing

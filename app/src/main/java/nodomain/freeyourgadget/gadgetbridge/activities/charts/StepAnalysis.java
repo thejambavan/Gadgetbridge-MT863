@@ -35,6 +35,7 @@ public class StepAnalysis {
     private int totalDailySteps = 0;
 
     public List<ActivitySession> calculateStepSessions(List<? extends ActivitySample> samples) {
+        LOG.debug("get all samples activitysessions: " + samples.toArray().length);
         List<ActivitySession> result = new ArrayList<>();
         ActivityUser activityUser = new ActivityUser();
         double STEP_LENGTH_M;
@@ -124,7 +125,9 @@ public class StepAnalysis {
                             float distance = (float) (activeSteps * STEP_LENGTH_M);
                             sessionEnd = new Date((sample.getTimestamp() - durationSinceLastActiveStep) * 1000L);
                             activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
-                            result.add(new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
+                            ActivitySession activitySession = new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind);
+                            //activitySession.setSessionType(ActivitySession.SESSION_ONGOING);
+                            result.add(activitySession);
                         }
                         sessionStart = null;
                     }
@@ -144,13 +147,15 @@ public class StepAnalysis {
                 float distance = (float) (activeSteps * STEP_LENGTH_M);
                 sessionEnd = getDateFromSample(previousSample);
                 activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
-                result.add(new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
+                ActivitySession ongoingActivity = new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind);
+                ongoingActivity.setSessionType(ActivitySession.SESSION_ONGOING);
+                result.add(ongoingActivity);
             }
         }
         return result;
     }
 
-    public List<ActivitySession> calculateSummary(List<ActivitySession> sessions, boolean empty) {
+    public ActivitySession calculateSummary(List<ActivitySession> sessions, boolean empty) {
 
         Date startTime = null;
         Date endTime = null;
@@ -160,7 +165,7 @@ public class StepAnalysis {
         int distanceSum = 0;
         float intensitySum = 0;
         int sessionCount;
-        int durationSum = 0;
+        long durationSum = 0;
 
         for (ActivitySession session : sessions) {
             startTime = session.getStartTime();
@@ -188,11 +193,17 @@ public class StepAnalysis {
 
 
         stepSessionSummary.setTotalDaySteps(totalDailySteps);
+        return stepSessionSummary;
+    }
 
-        List<ActivitySession> newList = new ArrayList<>();
-        newList.add(stepSessionSummary);
-        newList.addAll(sessions);
-        return newList;
+    public ActivitySession getOngoingSessions(List<ActivitySession> sessions) {
+
+        for (ActivitySession session : sessions) {
+            if (session.getSessionType() == ActivitySession.SESSION_ONGOING) {
+                return session;
+            }
+        }
+        return null;
     }
 
     private int calculateSumOfInts(List<Integer> samples) {

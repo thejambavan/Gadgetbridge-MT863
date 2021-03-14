@@ -124,7 +124,7 @@
     <string name="pref_title_enable_calendar_sync">同步记录</string>
     <string name="pref_summary_enable_calendar_sync">将记录发送到时间表</string>
     <string name="pref_title_autoremove_notifications">自动删除已错过的通知</string>
-    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从 Pebble 中删除</string>
+    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从设备中删除</string>
     <string name="pref_title_pebble_privacy_mode">隐私模式</string>
     <string name="pref_pebble_privacy_mode_off">正常通知</string>
     <string name="pref_pebble_privacy_mode_content">将通知文本移出屏幕</string>
@@ -1168,4 +1168,46 @@
     <string name="activity_DB_clean_export_directory_warning_message">确实需要删除导入/导出目录中的文件？</string>
     <string name="activity_db_management_clean_export_directory_label">删除导入/导出目录中的文件</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">从导出目录 %1$s 中删除文件时遇到错误</string>
+    <string name="devicetype_amazfit_neo">华米 Neo</string>
+    <string name="activity_type_strength_training">力量训练</string>
+    <string name="mi">英里</string>
+    <string name="minutes_mi">分钟/英里</string>
+    <string name="mi_h">迈</string>
+    <string name="ft">英尺</string>
+    <string name="devicetype_amazfit_gts2_mini">华米 GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">华米 GTR 2e</string>
+    <string name="devicetype_waspos">Wasp os</string>
+    <string name="battery_detail_activity_title">电池信息</string>
+    <string name="devicetype_amazfit_gts2e">华米 GTS 2e</string>
+    <string name="devicetype_amazfit_x">华米 X</string>
+    <string name="fw_upgrade_notice_amazfitx">您即将在您的 华米 X 上安装 %s 固件。
+\n
+\n请确保首先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后自动重启。
+\n
+\n注意：若 .res 文件版本和之前安装的相同，则无需再次安装 .res 文件。
+\n
+\n风险自担！</string>
+    <string name="calendar_year">年</string>
+    <string name="calendar_six_months">半年</string>
+    <string name="calendar_month">月</string>
+    <string name="calendar_two_weeks">两周</string>
+    <string name="calendar_week">周</string>
+    <string name="calendar_day">日</string>
+    <string name="battery_level">电池电量</string>
+    <string name="show_ongoing_activity">显示正在进行活动的弹出窗口</string>
+    <string name="dialog_hide">隐藏</string>
+    <string name="calendar_three_months">3个月</string>
+    <string name="fossil_hr_auth_failed">由于认证失败，功能受到限制</string>
+    <string name="fossil_hr_unavailable_unauthed">未认证模式下不可用</string>
+    <string name="fossil_hr_synced_activity_data">已同步的活动数据</string>
+    <string name="fossil_hr_commute_processing">正在处理请求……</string>
+    <string name="qhybrid_title_calibration">校准</string>
+    <string name="qhybrid_title_apps_management">应用管理</string>
+    <string name="qhybrid_title_file_management">文件管理</string>
+    <string name="qhybrid_title_background_image">背景图片</string>
+    <string name="qhybrid_title_apps">应用</string>
+    <string name="qhybrid_title_watchface_apps">表盘与应用</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">由于手表固件过新，某些功能被禁用</string>
 </resources>

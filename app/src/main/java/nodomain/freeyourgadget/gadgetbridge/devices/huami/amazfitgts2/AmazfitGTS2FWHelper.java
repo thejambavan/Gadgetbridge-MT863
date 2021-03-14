@@ -23,7 +23,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2FirmwareInfo;
 
 public class AmazfitGTS2FWHelper extends HuamiFWHelper {
 
@@ -33,7 +33,7 @@ public class AmazfitGTS2FWHelper extends HuamiFWHelper {
 
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
-        firmwareInfo = new AmazfitGTRFirmwareInfo(wholeFirmwareBytes);
+        firmwareInfo = new AmazfitGTS2FirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
             throw new IllegalArgumentException("Not an Amazfit GTS 2 firmware");
         }

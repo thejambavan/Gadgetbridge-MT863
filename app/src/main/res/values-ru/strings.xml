@@ -44,14 +44,14 @@
     <string name="title_activity_fw_app_insaller">Установка прошивки и приложений</string>
     <string name="fw_upgrade_notice">Вы собираетесь установить прошивку %s.</string>
     <string name="fw_multi_upgrade_notice">Вы собираетесь установить прошивки %1$s и %2$s вместо текущей на вашем Mi Band.</string>
-    <string name="miband_firmware_known">Эта прошивка была проверена: она совместима с Gadgetbridge.</string>
+    <string name="miband_firmware_known">Эта прошивка была проверена и она совместима с Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.
 \n
 \nНЕ РЕКОМЕНДУЕТСЯ устанавливать её!</string>
     <string name="miband_firmware_suggest_whitelist">Если вы установите эту прошивку и убедитесь, что всё работает без сбоев, пожалуйста, сообщите об этом разработчикам Gadgetbridge. Они пометят эту версию прошивки (%s) как совместимую.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Настройки</string>
-    <string name="pref_header_general">Общие</string>
+    <string name="pref_header_general">Общие настройки</string>
     <string name="pref_title_general_autoconnectonbluetooth">Подключаться к добавленному устройству при включении Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
     <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
@@ -74,7 +74,7 @@
     <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Для приложений, которые отправляют уведомления на Pebble с помощью PebbleKit.</string>
     <string name="pref_title_notifications_generic">Доступ к уведомлениям</string>
-    <string name="pref_title_whenscreenon">Уведомления при включённом экране</string>
+    <string name="pref_title_whenscreenon">...также, когда экран включен</string>
     <string name="pref_title_notification_filter">Не беспокоить</string>
     <string name="pref_summary_notification_filter">Не показывать нежелательные уведомления в этом режиме</string>
     <string name="pref_title_transliteration">Транслитерация</string>
@@ -330,18 +330,24 @@
     <string name="live_activity_heart_rate">Пульс</string>
     <string name="pref_title_pebble_health_store_raw">Хранить необработанные записи в базе данных</string>
     <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
-    <string name="action_db_management">Управление базой данных</string>
-    <string name="title_activity_db_management">Управление базой данных</string>
-    <string name="activity_db_management_import_export_explanation">Операции с базой данных используют этот путь на устройстве. 
-\nОн доступен для других приложений Android и компьютера. 
-\nВы можете найти экспортированную базу данных (или разместить базу данных, которую вы хотите импортировать) здесь:</string>
+    <string name="action_db_management">Управление данными</string>
+    <string name="title_activity_db_management">Управление данными</string>
+    <string name="activity_db_management_import_export_explanation">Операции с экспорта/импорта используют этот путь (см. ниже) в директорию на устройстве. Эта директория доступна для других приложений Android и компьютера.
+\nОбратите внимание, что эта директория и все файлы в ней будет удалено, если вы удалите Gadgetbridge. Эти данные включают:
+\n Export_preference - глобальные настройки
+\n Export_preference_МАК - настройки только для этого устройства
+\n Gadgetbridge - база данных устройств и активностей
+\n Gadgetbridge_date - база данных, экспортированная на дату
+\n *.gpx - GPS записи
+\n *.log - лог файлы
+\nВы можете найти экспортированную базу данных (или разместить файлы, которые вы хотите импортировать) здесь:</string>
     <string name="activity_db_management_merge_old_title">Удаление устаревшей базы данных</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Нет доступа к пути экспорта. Обратитесь, пожалуйста, к разработчикам.</string>
     <string name="dbmanagementactivity_exported_to">Экспортировано в: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Ошибка экспорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Ошибка экспорта настроек: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Импортировать данные?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущую базу данных? Все текущие данные вашей активности (если они есть) будут утеряны.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущие данные\? Все текущая активность (если она есть) будет перезаписаны.</string>
     <string name="dbmanagementactivity_import_successful">Импортировано.</string>
     <string name="dbmanagementactivity_error_importing_db">Ошибка импорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Ошибка импорта настроек: %1$s</string>
@@ -735,8 +741,8 @@
     <string name="pref_summary_use_custom_font">Активируйте это для поддержки emoji, если ваше устройство имеет установленный пользовательский шрифт</string>
     <string name="activity_db_management_autoexport_explanation">Местоположение авто-экспорта базы данных установлено:</string>
     <string name="activity_db_management_autoexport_label">Авто-экспорт</string>
-    <string name="activity_DB_ExportButton">Экспорт базы данных</string>
-    <string name="activity_DB_import_button">Импорт базы данных</string>
+    <string name="activity_DB_ExportButton">Экспорт данных</string>
+    <string name="activity_DB_import_button">Импорт данных</string>
     <string name="activity_DB_test_export_button">Запустить Авто-экспорт сейчас</string>
     <string name="activity_DB_test_export_message">Экспортирование базы данных…</string>
     <string name="activity_DB_delete_legacy_button">Удалить старую базу данных</string>
@@ -822,7 +828,7 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
-    <string name="pref_summary_sync_calendar">Включает уведомления календаря, даже когда нет соединения</string>
+    <string name="pref_summary_sync_calendar">Позволяет выполнять оповещения календаря, даже при отключении</string>
     <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
@@ -837,7 +843,7 @@
     <string name="about_additional_device_support">Дополнительная поддержка устройств</string>
     <string name="about_contributors">Соавторы</string>
     <string name="about_core_team_title">Основная команда (в порядке поступления первого кода)</string>
-    <string name="about_description">Свободная альтернатива закрытым приложениям от производителей гаджетов. Без \"облаков\" и синхронизаций с внешними серверами.</string>
+    <string name="about_description">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов.</string>
     <string name="about_activity_title">О Gadgetbridge</string>
     <string name="about_title">О программе</string>
     <string name="hr_widget_last_notification">Последнее уведомление</string>
@@ -908,8 +914,8 @@
     <string name="pref_title_notifications_and_calls_repeat_on_misscall">Повторять для n\'ого количества минут</string>
     <string name="pref_summary_notifications_and_calls_enable_misscall">Повторять каждую минуту</string>
     <string name="pref_notifications_and_calls_enable_misscall">Уведомлять о пропущенных вызовах</string>
-    <string name="prefs_notifications_and_calls_continious_ring">Уведомления во время входящего вызова</string>
-    <string name="title_activity_LenovoWatch_calibration">Калибровка Watch X Plus</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Разрешить уведомления во время звонка</string>
+    <string name="title_activity_LenovoWatch_calibration">Калибровка часов Watch X Plus</string>
     <string name="pref_title_weather_summary">Используется для провайдера погоды LineageOS, другие версии Android должны использовать приложение типа \"Уведомление о погоде\". Дополнительную информацию можно найти в вики-проекте Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Вы собираетесь установить прошивку %s на свой Mi Band 5.
 \n
@@ -928,8 +934,8 @@
     <string name="controlcenter_set_alias">Установить псевдоним</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Повторять уведомления о звонке</string>
     <string name="pref_header_notifications_and_calls">Уведомления и звонки</string>
-    <string name="pref_title_vibration_strength">Интенсивность вибрации</string>
-    <string name="pref_title_relax_firmware_checks">Включите, если хотите установить прошивку, не предназначенную для вашего устройства (на ваш страх и риск)</string>
+    <string name="pref_title_vibration_strength">Мощность вибрации</string>
+    <string name="pref_title_relax_firmware_checks">Включите эту функцию, если хотите установить прошивку, не предназначенную для вашего устройства (на ваш страх и риск)</string>
     <string name="pref_summary_relax_firmware_checks">Ослабить проверки прошивки</string>
     <string name="swolf_index">swolf индекс</string>
     <string name="ascentSeconds">Подъём</string>
@@ -1105,7 +1111,7 @@
     <string name="menuitem_spo2">SpO2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
-    <string name="activity_list_summary_active_time">Активное время</string>
+    <string name="activity_list_summary_active_time">Время активности</string>
     <string name="activity_list_summary_distance">Расстояние</string>
     <string name="activity_list_summary_active_steps">Активные шаги</string>
     <string name="prefs_charts_tabs_summary">Видимые вкладки диаграмм</string>
@@ -1130,7 +1136,7 @@
     <string name="pref_title_middle_button_function_short">Короткое нажатие на среднюю кнопку</string>
     <string name="pref_title_upper_button_function_short">Короткое нажатие на верхнюю кнопку</string>
     <string name="menuitem_goal">Цель</string>
-    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="menuitem_pomodoro">Трекер Pomodoro</string>
     <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
     <string name="pref_title_connected_advertisement">Виден при подключении</string>
     <string name="prefs_autoremove_message">Автоматически удалять SMS-уведомления</string>
@@ -1147,4 +1153,46 @@
 \n
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="qhybrid_calibration_align_hint">Выровнять стрелки к 12:00</string>
+    <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
+    <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
+    <string name="prefs_operating_sounds">Рабочие звуки</string>
+    <string name="widget_settings_select_device_title">Выберите устройство</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_finished">Удаление завершено</string>
+    <string name="activity_db_management_clean_export_directory_text">Экспортированные файлы в каталоге экспорта/импорта доступны для любого приложения на вашем устройстве. Вы можете удалить эти файлы после синхронизации или резервного копирования. Перед удалением убедитесь, что у вас есть резервная копия. Файлы GPX, подкаталоги и автоматически экспортируемый файл базы данных (если он существует) не будут удалены. Путь к каталогу экспорта/импорта:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Действительно удалить файлы в каталоге экспорта/импорта\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Удалить файлы в каталоге экспорта/импорта\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Удалить файлы в каталоге экспорта/импорта</string>
+    <string name="activity_DB_ShowContentButton">Показать содержимое каталога экспорта/импорта</string>
+    <string name="activity_data_management_directory_content_title">Экспорт/импорт содержимого каталога</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Ошибка при удалении файлов из каталога экспорта %1$s</string>
+    <string name="mi">миль</string>
+    <string name="minutes_mi">минут/миль</string>
+    <string name="mi_h">миль/час</string>
+    <string name="ft">футов</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Силовой тренинг</string>
+    <string name="battery_detail_activity_title">Информация о батарее</string>
+    <string name="fw_upgrade_notice_amazfitx">Вы собираетесь установить прошивку %s на свой Amazfit X.
+\n
+\nОбязательно установите файл .fw, а затем файл .res. Ваш браслет перезагрузится после установки файла .fw.
+\n
+\nПримечание: Вам не нужно устанавливать .res, если он точно такой же, как ранее установленный.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="calendar_year">Год</string>
+    <string name="calendar_six_months">Шесть месяцев</string>
+    <string name="calendar_month">Месяц</string>
+    <string name="calendar_two_weeks">Две недели</string>
+    <string name="calendar_week">Неделя</string>
+    <string name="calendar_day">День</string>
+    <string name="battery_level">Уровень заряда батареи</string>
+    <string name="show_ongoing_activity">Показать всплывающее окно с текущей активностью</string>
+    <string name="dialog_hide">Скрыть</string>
 </resources>

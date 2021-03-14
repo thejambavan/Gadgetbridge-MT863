@@ -12,10 +12,7 @@ Pebble, Mi Band, Amazfit Bip and HPlus device (and more) without the vendor's cl
 and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
-
-[Homepage](https://gadgetbridge.org)
-
-[Blog](https://blog.freeyourgadget.org)
+[Homepage](https://gadgetbridge.org) - [Blog](https://blog.freeyourgadget.org) - [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
@@ -31,50 +28,59 @@ vendor's servers.
 
 [List of changes](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/master/CHANGELOG.md)
 
-## Supported Devices (WARNING: Some of them WIP and some of them without maintainer)
-* Amazfit Bip [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-* Amazfit Bip Lite (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite)
-* Amazfit Bip S (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE)
-* Amazfit Bip U (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE)
-* Amazfit Cor [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor)
-* Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
-* Amazfit GTR (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
-* Amazfit GTR 2(WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
-* Amazfit GTS (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
-* Amazfit GTS 2(WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
-* Amazfit T-Rex (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE)
-* Amazfit Verge Lite (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE)
-* BFH-16
-* Casio GB-5600B/GB-6900B/GB-X6900B
-* Casio GBX-100
-* Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
-* Fossil Q Hybrid
-* HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* iTag [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
-* ID115
-* Nut Mini 3, Nut 2 and possibly others [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nut)
-* JYou Y5
-* Lefun
-* Lenovo Watch 9
-* Lenovo Watch X (Plus) [Wiki](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
-* Liveview
-* Makibes HR3
-* Mi Band, Mi Band 1A, Mi Band 1S [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band)
-* Mi Band 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2)
-* Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
-* Mi Band 4 (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
-* Mi/Amazfit Band 5 (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5)
-* Mi Scale 2 (Currently only displays a toast after stepping on the scale)
-* NO.1 F1
-* Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* PineTime (InfiniTime Firmware)
-* Teclast H10, H30
-* TLW64
-* XWatch (Affordable Chinese Casio-like smartwatches)
-* Vibratissimo (Experimental)
-* ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
+## Supported Devices
+**(WARNING: Some of them WIP and some of them without maintainer)**
 
+- Amazfit
+	- [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
+	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
+	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), Bip S, Bip U [**\[!\]**](#special-pairing-procedures)
+	- [Cor](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor), [Cor 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
+	- [GTR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
+	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS) [**\[!\]**](#special-pairing-procedures) 
+	- [Neo](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Neo) [**\[!\]**](#special-pairing-procedures) 
+	- T-Rex [**\[!\]**](#special-pairing-procedures)
+	- Verge Lite [**\[!\]**](#special-pairing-procedures)
+	- [X ](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
+- BFH-16
+- Casio
+	- [GB-5600B/GB-6900B/GB-X6900B](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GB-5600B%2FGB-6900B%2FGB-X6900B)
+	- [GBX-100](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GBX-100)
+- Fossil
+	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
+	- Q Hybrid
+- [HPlus Devices (e.g. ZeBand)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
+- ID115
+- [iTag](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
+- JYou Y5
+- Lefun
+- Lenovo
+	- Watch 9
+	- [Watch X (Plus)](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
+- Liveview
+- Makibes HR3
+- Mi
+	- [Band, Band 1A, Band 1S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), [Band 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2), [Band 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
+	- [Band 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4), [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
+	- Scale 2 (Currently only displays a toast after stepping on the scale)
+- [MyKronoz ZeTime](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
+- NO.1 F1
+- [Nut Mini 3, Nut 2 and possibly others](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nut)
+- Pebble
+	- [Pebble, Steel, Time, Time Steel, Time Round, 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
+- PineTime (InfiniTime Firmware)
+- Teclast H10, H30
+- TLW64
+- Vibratissimo (Experimental)
+- XWatch (Affordable Chinese Casio-like smartwatches)
+- [Zepp E](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
+
+
+### Special Pairing Procedures
+
+Some Huami / Amazfit / Mi / Zepp devices can only be paired with Gadgetbridge using a secret key that has to be obtained once using the proprietary app with an account. Detailed instructions in the wiki: [Huami Server Pairing](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Huami-Server-Pairing)
+
+The Fossil Hybrid HR also requires using the proprietary app, but with a more complicated procedure. Details in the wiki: [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR).
 
 ## Features
 
@@ -113,6 +119,8 @@ Contributions are welcome, be it feedback, bug reports, documentation, translati
 on any of the open [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues);
 just leave a comment that you're working on one to avoid duplicated work.
 
+[Developer documentation](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Developer-Documentation) - [Support for a new Device](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Support-for-a-new-Device) - [New Device Tutorial](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/New-Device-Tutorial)
+
 Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
 
 ## Community
@@ -134,6 +142,6 @@ Feel free to open an issue on our issue tracker, but please:
 1. Open Gadgetbridge's settings and check the option to write log files
 2. Reproduce the problem you encountered
 3. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
-4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
+4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new/choose and possibly provide the logfile
 
 Alternatively you may use the standard logcat functionality to access the log.

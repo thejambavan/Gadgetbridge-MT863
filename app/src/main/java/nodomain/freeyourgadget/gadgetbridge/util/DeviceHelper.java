@@ -54,6 +54,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.SG2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband5.AmazfitBand5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2MiniCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2eCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteCoordinator;
@@ -65,6 +68,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor2.AmazfitCor
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppe.ZeppECoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2eCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel.AmazfitVergeLCoordinator;
@@ -96,7 +102,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sonyswr12.SonySWR12DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
@@ -228,6 +236,7 @@ public class DeviceHelper {
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
         result.add(new MiScale2DeviceCoordinator());
+        result.add(new AmazfitXCoordinator());
         result.add(new AmazfitBipCoordinator());
         result.add(new AmazfitBipLiteCoordinator());
         result.add(new AmazfitCorCoordinator());
@@ -235,11 +244,16 @@ public class DeviceHelper {
         result.add(new AmazfitGTRCoordinator());
         result.add(new AmazfitGTRLiteCoordinator());
         result.add(new AmazfitGTR2Coordinator());
+        result.add(new ZeppECoordinator());
+        result.add(new AmazfitGTR2eCoordinator());
         result.add(new AmazfitTRexCoordinator());
         result.add(new AmazfitGTSCoordinator());
         result.add(new AmazfitGTS2Coordinator());
+        result.add(new AmazfitGTS2eCoordinator());
+        result.add(new AmazfitGTS2MiniCoordinator());
         result.add(new AmazfitVergeLCoordinator());
         result.add(new AmazfitBipSCoordinator());
+        result.add(new AmazfitBipSLiteCoordinator());
         result.add(new AmazfitBipUCoordinator());
         result.add(new AmazfitBipUProCoordinator());
         result.add(new AmazfitBand5Coordinator());
@@ -282,7 +296,8 @@ public class DeviceHelper {
         result.add(new LefunDeviceCoordinator());
         result.add(new SonySWR12DeviceCoordinator());
         result.add(new DaFitDeviceCoordinator());
-
+        result.add(new WaspOSCoordinator());
+        result.add(new UM25Coordinator());
         return result;
     }
 

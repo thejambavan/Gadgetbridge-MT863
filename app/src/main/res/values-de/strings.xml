@@ -355,7 +355,7 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten „wie sie sind“ und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenmanagement</string>
     <string name="title_activity_db_management">Datenmanagement</string>
-    <string name="activity_db_management_import_export_explanation">Die Export-/Importvorgänge verwenden den folgenden Pfad zu einem Verzeichnis auf deinem Gerät. Auf dieses Verzeichnis können andere Android-Apps und dein Computer zugreifen. Die Daten umfassen:
+    <string name="activity_db_management_import_export_explanation">Die Export-/Importvorgänge verwenden den folgenden Pfad (siehe unten) zu einem Verzeichnis auf deinem Gerät. Auf dieses Verzeichnis können andere Android-Apps und dein Computer zugreifen. Beachte, dass dieses Verzeichnis und alle enthaltenen Dateien gelöscht werden, wenn du Gadgetbridge deinstallierst. Die Daten umfassen:
 \n Export_preference - globale Einstellungen
 \n Export_preference_MAC - gerätespezifische Einstellungen
 \n Gadgetbridge - Geräte- und Aktivitätsdatenbank
@@ -573,7 +573,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Nur für GATT</string>
     <string name="prefs_screen_orientation">Bildschirmausrichtung</string>
     <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen Abfragen</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Ruft alle %d Minuten ab</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Hole neue Informationen alle %d Minuten</string>
     <string name="notif_battery_low">%1$s Akku schwach</string>
     <string name="no_limit">Kein Limit</string>
     <string name="seconds_5">5 Sekunden</string>
@@ -930,7 +930,7 @@
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Intervall</string>
+    <string name="menuitem_cycles">Periode</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
     <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
@@ -1063,7 +1063,7 @@
     <string name="activity_type_soccer">Fußball</string>
     <string name="activity_filter_to_placeholder">Heute</string>
     <string name="activity_filter_from_placeholder">Vergangenheit</string>
-    <string name="chart_no_active_data">Keine Aktivitäten gefunden.</string>
+    <string name="chart_no_active_data">Keine Aktivitäten festgestellt.</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Einstellungen</string>
     <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
@@ -1151,8 +1151,8 @@
     <string name="prefs_autolight">Automatisches Licht</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="discovery_entered_invalid_authkey">Der eingegebene geheime Authentifikationsschlüssel ist ungültig! Drücke zum Bearbeiten lange auf das Gerät.</string>
-    <string name="pref_summary_connected_advertisement">Macht das Gerät auch im verbundenen Zustand über Bluetooth auffindbar</string>
-    <string name="pref_title_connected_advertisement">Sichtbar während der Verbindung</string>
+    <string name="pref_summary_connected_advertisement">Macht das Gerät trotz bestehender Bluetoothverbindung auffindbar</string>
+    <string name="pref_title_connected_advertisement">Sichtbar, während eine Verbindung besteht</string>
     <string name="fw_upgrade_notice_amazfitvergel">Du bist dabei, die Firmware %s auf deine Amazfit Verge Lite zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
@@ -1166,4 +1166,44 @@
     <string name="activity_DB_ShowContentButton">Export-/Importverzeichnisinhalt anzeigen</string>
     <string name="activity_data_management_directory_content_title">Verzeichnisinhalt exportieren/importieren</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="activity_db_management_clean_export_directory_text">Auf exportierte Dateien im Export/Import-Verzeichnis kann jede App auf deinem Gerät zugreifen. Möglicherweise möchtest du diese Dateien nach der Synchronisierung oder Sicherung entfernen. Stelle sicher, dass du ein Backup hast, bevor du sie löschst. GPX-Dateien, Unterverzeichnisse und automatisch exportierte Datenbankdateien (falls vorhanden) werden nicht gelöscht. Der Pfad zum Export/Import-Verzeichnis lautet:</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Fehler beim Löschen der Dateien aus dem Exportverzeichnis %1$s</string>
+    <string name="dbmanagementactivity_export_finished">Löschen abgeschlossen</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Dateien im Export/Import-Verzeichnis wirklich löschen\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Dateien im Export/Import-Verzeichnis löschen\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Dateien im Export/Import-Verzeichnis löschen</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Krafttraining</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/h</string>
+    <string name="ft">ft</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="battery_detail_activity_title">Akku-Information</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="fw_upgrade_notice_amazfitx">Du bist dabei, die Firmware %s auf dein Amazfit X zu installieren.
+\n
+\nBitte stelle sicher, dass du zuerst die .fw Datei und dann die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu starten.
+\n
+\nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="calendar_year">Jahr</string>
+    <string name="calendar_six_months">6 Monate</string>
+    <string name="calendar_month">Monat</string>
+    <string name="calendar_two_weeks">Zwei Wochen</string>
+    <string name="calendar_week">Woche</string>
+    <string name="calendar_day">Tag</string>
+    <string name="battery_level">Akkustand</string>
+    <string name="show_ongoing_activity">Popup für laufende Aktivitäten anzeigen</string>
+    <string name="dialog_hide">Ausblenden</string>
+    <string name="calendar_three_months">3 Monate</string>
+    <string name="fossil_hr_auth_failed">Authentifizierung fehlgeschlagen, eingeschränkte Funktionalität</string>
+    <string name="fossil_hr_unavailable_unauthed">Im unauthentifizierten Modus nicht verfügbar</string>
+    <string name="fossil_hr_synced_activity_data">Synchronisierte Aktivitätsdaten</string>
+    <string name="fossil_hr_commute_processing">Anfrage wird verarbeitet...</string>
 </resources>

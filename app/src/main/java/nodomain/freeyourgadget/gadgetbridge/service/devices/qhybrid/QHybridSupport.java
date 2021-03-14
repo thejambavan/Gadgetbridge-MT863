@@ -96,6 +96,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
     public static final String QHYBRID_COMMAND_SET_WIDGET_CONTENT = "nodomain.freeyourgadget.gadgetbridge.Q_SET_WIDGET_CONTENT";
     public static final String QHYBRID_COMMAND_SET_BACKGROUND_IMAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_BACKGROUND_IMAGE";
+    public static final String QHYBRID_COMMAND_UNINSTALL_APP = "nodomain.freeyourgadget.gadgetbridge.Q_UNINSTALL_APP";
 
     public static final String QHYBRID_COMMAND_DOWNLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOAD_FILE";
     public static final String QHYBRID_COMMAND_UPLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOAD_FILE";
@@ -160,6 +161,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_WIDGETS);
         commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
         commandFilter.addAction(QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+        commandFilter.addAction(QHYBRID_COMMAND_UNINSTALL_APP);
         commandFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         commandFilter.addAction(QHYBRID_COMMAND_DOWNLOAD_FILE);
         commandReceiver = new BroadcastReceiver() {
@@ -283,17 +285,17 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
-                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
-                        if(handleObject == null || !(handleObject instanceof FileHandle)) return;
-                        FileHandle handle = (FileHandle) handleObject;
-                        String filePath = intent.getStringExtra("EXTRA_PATH");
-                        watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
+                        handleFileUploadIntent(intent);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UNINSTALL_APP:{
+                        watchAdapter.uninstallApp(intent.getStringExtra("EXTRA_APP_NAME"));
                         break;
                     }
                 }
             }
         };
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
 
         helper = new PackageConfigHelper(GBApplication.getContext());
 
@@ -301,6 +303,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_MESSAGE);
         globalFilter.addAction(QHYBRID_COMMAND_SET_WIDGET_CONTENT);
+        globalFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -363,10 +366,31 @@ public class QHybridSupport extends QHybridBaseSupport {
                         }
                         break;
                     }
+                    case QHYBRID_COMMAND_UPLOAD_FILE:{
+                        handleFileUploadIntent(intent);
+                        break;
+                    }
                 }
             }
         };
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+    }
+
+    private void handleFileUploadIntent(Intent intent){
+        boolean generateHeader = intent.getBooleanExtra("EXTRA_GENERATE_FILE_HEADER", false);
+        String filePath = intent.getStringExtra("EXTRA_PATH");
+        if(!generateHeader){
+            watchAdapter.uploadFileIncludesHeader(filePath);
+            return;
+        }
+        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
+        if(handleObject == null)return;
+        if(handleObject instanceof String){
+            handleObject = FileHandle.fromName((String)handleObject);
+        }
+        if(!(handleObject instanceof FileHandle)) return;
+        FileHandle handle = (FileHandle) handleObject;
+        watchAdapter.uploadFileGenerateHeader(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
     }
 
     @Override

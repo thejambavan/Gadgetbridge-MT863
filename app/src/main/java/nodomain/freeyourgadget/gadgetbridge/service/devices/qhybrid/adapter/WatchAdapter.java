@@ -145,9 +145,15 @@ public abstract class WatchAdapter {
     public void downloadFile(FileHandle handle, boolean fileIsEncrypted) {
     }
 
-    public void uploadFile(FileHandle handle, String filePath, boolean fileIsEncrypted) {
+    public void uploadFileGenerateHeader(FileHandle handle, String filePath, boolean fileIsEncrypted) {
+    }
+
+    public void uploadFileIncludesHeader(String filePath){
     }
 
     public void factoryReset() {
+    }
+
+    public void uninstallApp(String appName) {
     }
 }

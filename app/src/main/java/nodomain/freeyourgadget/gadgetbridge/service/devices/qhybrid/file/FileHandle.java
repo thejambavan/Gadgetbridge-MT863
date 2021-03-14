@@ -48,6 +48,24 @@ public enum FileHandle {
         this.subHandle = subHandle;
     }
 
+    public static FileHandle fromName(String name){
+        for(FileHandle handle : FileHandle.values()){
+            if(handle.toString().equals(name)){
+                return handle;
+            }
+        }
+        return null;
+    }
+
+    public static FileHandle fromHandle(short handleBytes){
+        for(FileHandle handle : FileHandle.values()){
+            if(handle.getHandle() == handleBytes){
+                return handle;
+            }
+        }
+        return null;
+    }
+
     public short getHandle(){
         return (short)((handle << 8) | (subHandle));
     }

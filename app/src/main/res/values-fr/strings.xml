@@ -115,7 +115,7 @@
     <string name="pref_title_enable_calendar_sync">Synchroniser le calendrier</string>
     <string name="pref_summary_enable_calendar_sync">Envoyer les événements du calendrier sur la timeline</string>
     <string name="pref_title_autoremove_notifications">Effacer automatiquement les notifications rejetées</string>
-    <string name="pref_summary_autoremove_notifications">Les notifications sont automatiquement effacées de la Pebble lorsqu\'elles sont rejetées sur l\'appareil Android</string>
+    <string name="pref_summary_autoremove_notifications">Les notifications sont automatiquement effacées de l\'appareil lorsqu\'elles sont rejetées sur le téléphone</string>
     <string name="pref_title_pebble_privacy_mode">Mode privé</string>
     <string name="pref_pebble_privacy_mode_off">Notifications normales</string>
     <string name="pref_pebble_privacy_mode_content">Déplace les notifications hors de l\'écran</string>
@@ -125,7 +125,7 @@
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
     <string name="pref_title_location_keep_uptodate">Garder l’emplacement à jour</string>
-    <string name="pref_summary_location_keep_uptodate">Essayer de garder la localisation à jour pendant le fonctionnement, sinon utiliser l’emplacement enregistré.</string>
+    <string name="pref_summary_location_keep_uptodate">Essayer de garder la localisation à jour pendant le fonctionnement, sinon utiliser l’emplacement enregistré</string>
     <string name="toast_enable_networklocationprovider">Veuillez activer la localisation réseau</string>
     <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
     <string name="pref_title_pebble_forceprotocol">Forcer le protocole de notification</string>
@@ -472,7 +472,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
-    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_liveview">Vue en directe</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
@@ -968,7 +968,7 @@ Temps de sommeil préféré en heures</string>
     <string name="flatSeconds">Plat</string>
     <string name="ascentSeconds">Ascendant</string>
     <string name="swimStyle">Type de nage</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swolfIndex">index swolf</string>
     <string name="averageLapPace">Moyenne de pause</string>
     <string name="averageStrokesPerSecond">Foulées moyennes</string>
     <string name="averageStrokeDistance">Distance moyenne de foulée</string>
@@ -1140,11 +1140,11 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="fw_upgrade_notice_amazfitvergel">Vous êtes sur le point d\'installer le firmware %s dans votre Amazfit Verge Lite.
 \n
-\nAssurez-vous d\'installer le fichien .fw, puis le fichier .res, et pour finir le fichier .gps. Votre montre va redémarrer après l\'installation du fichier .fw.
+\nAssurez-vous d\'installer le fichier .fw, puis le fichier .res, et pour finir le fichier .gps. Votre montre va redémarrer après l\'installation du fichier .fw.
 \n
-\nRemarque: Vous n\'avez pas besoin d\'installer les fichiers .res et .gps si ce sont exactement les mêmes fichiers que précédemment.
+\nRemarque : Vous n\'avez pas besoin d\'installer les fichiers .res et .gps si ce sont exactement les mêmes fichiers que précédemment.
 \n
-\nMANIPULATION À VOS RISQUES ET PÉRILS !</string>
+\nMANIPULATION À VOS RISQUES ET PÉRILS !</string>
     <string name="activity_DB_ShowContentButton">Montrer le contenu du répertoire d\'Import/Export</string>
     <string name="activity_data_management_directory_content_title">Exporter/Importer le contenu du répertoire</string>
     <string name="widget_settings_select_device_title">Choisir l\'appareil</string>
@@ -1157,4 +1157,46 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_DB_clean_export_directory_warning_title">Effacer les fichiers dans le répertoire d\'Import/Export \?</string>
     <string name="activity_db_management_clean_export_directory_label">Effacer les fichiers dans le répertoire d\'Import/Export</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Erreur lors de l\'effacement des fichiers du répertoire d\'exportation %1$s</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Entrainement de Puissance</string>
+    <string name="mi">miles</string>
+    <string name="minutes_mi">min/miles</string>
+    <string name="mi_h">miles/h</string>
+    <string name="ft">pieds</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="battery_detail_activity_title">Info. Batterie</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">Vous allez installer le microcode %s dans votre Amazfit X.
+\n
+\nAssurez-vous d\'abord d\'installer le fichier .fw, puis ensuite le fichier .res. Votre bracelet va redémarrer après l\'installation du fichier .fw.
+\n
+\nRemarque: Vous n\'avez pas à réinstaller le fichiers .res si c\'est exactement le même que vous avez précédemment installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="calendar_year">Année</string>
+    <string name="calendar_six_months">Semestre</string>
+    <string name="calendar_month">Mois</string>
+    <string name="calendar_two_weeks">Deux semaines</string>
+    <string name="calendar_week">Semaine</string>
+    <string name="calendar_day">Jour</string>
+    <string name="battery_level">Niveau de batterie</string>
+    <string name="show_ongoing_activity">Afficher une popup pour l\'activité en cours</string>
+    <string name="dialog_hide">Cacher</string>
+    <string name="calendar_three_months">3 mois</string>
+    <string name="fossil_hr_auth_failed">AUthentification ratée, fonctionnalités limitées</string>
+    <string name="fossil_hr_unavailable_unauthed">Indisponible en mode non authentifié</string>
+    <string name="fossil_hr_synced_activity_data">Données d\'activité synchronisées</string>
+    <string name="fossil_hr_commute_processing">En cours de traitement...</string>
+    <string name="qhybrid_title_calibration">Calibration</string>
+    <string name="qhybrid_title_apps_management">Gestion des apps</string>
+    <string name="qhybrid_title_file_management">Gestion de fichiers</string>
+    <string name="qhybrid_title_background_image">Image de fond</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="qhybrid_title_watchface_apps">Écran et apps</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">Certaines fonctions sont désactivées en raison de la version trop récente du micrologiciel du bracelet</string>
 </resources>

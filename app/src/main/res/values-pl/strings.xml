@@ -382,7 +382,7 @@
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
     <string name="pref_title_weather_location">Lokalizacja pogody (dla dostawcy pogody LineageOS)</string>
     <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji spowoduje również, że Pebble 2/LE przestanie wibrować przy połączeniach wychodzących</string>
-    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu z urządzenia Android</string>
+    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z urządzenia po usunięciu z telefonu</string>
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
     <string name="pref_summary_location_keep_uptodate">Spróbuj uzyskać lokalizację w czasie uruchomienia, używa przechowywanych lokalizacji jako pomocy</string>
     <string name="controlcenter_change_led_color">Zmień kolor LED</string>
@@ -1154,7 +1154,7 @@
     <string name="discovery_entered_invalid_authkey">Wprowadzony klucz autoryzacji jest nieprawidłowy! Naciśnij i przytrzymaj, aby edytować.</string>
     <string name="prefs_events_forwarding_broadcast_title">Treść emisji (broadcast)</string>
     <string name="prefs_events_forwarding_summary">Używanie zdarzeń urządzenia do wyzwalania działań i emisji (broadcast) Androida</string>
-    <string name="activity_DB_ShowContentButton">Pokaż eksport/import zawartości katalogu</string>
+    <string name="activity_DB_ShowContentButton">Pokaż zawartość katalogu eksportu/importu</string>
     <string name="activity_data_management_directory_content_title">Eksportuj/Importuj zawartość katalogu</string>
     <string name="prefs_fake_ring_duration">Fałszywe ciągłe dzwonienie</string>
     <string name="prefs_operating_sounds">Dźwięki operacyjne</string>
@@ -1170,4 +1170,46 @@
     <string name="activity_DB_clean_export_directory_warning_message">Czy na pewno usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="activity_DB_clean_export_directory_warning_title">Usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Wystąpił błąd podczas usuwania plików z katalogu eksportu %1$s</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="minutes_mi">min/mil</string>
+    <string name="mi_h">mil/h</string>
+    <string name="ft">stopa</string>
+    <string name="mi">mi</string>
+    <string name="activity_type_strength_training">Trening siłowy</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="battery_detail_activity_title">Informacje o baterii</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">Zamierzasz zainstalować firmware %s na swoim Amazfit X.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twoja opaska zrestartuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie musisz instalować pliku .res, jeśli jest dokładnie taki sam jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="calendar_year">Rok</string>
+    <string name="calendar_six_months">6 miesięcy</string>
+    <string name="calendar_month">Miesiąc</string>
+    <string name="calendar_two_weeks">Dwa tygodnie</string>
+    <string name="calendar_week">Tydzień</string>
+    <string name="calendar_day">Dzień</string>
+    <string name="battery_level">Poziom baterii</string>
+    <string name="show_ongoing_activity">Pokaż wyskakujące okienko aktywności</string>
+    <string name="dialog_hide">Ukryj</string>
+    <string name="calendar_three_months">3 miesiące</string>
+    <string name="fossil_hr_auth_failed">Uwierzytelnianie nie powiodło się, ograniczona funkcjonalność</string>
+    <string name="fossil_hr_unavailable_unauthed">Niedostępne w trybie bez uwierzytelnienia</string>
+    <string name="fossil_hr_synced_activity_data">Zsynchronizowane dane dotyczące aktywności</string>
+    <string name="fossil_hr_commute_processing">Przetwarzanie żądania…</string>
+    <string name="qhybrid_title_watchface_apps">Tarcze zegara i aplikacje</string>
+    <string name="qhybrid_title_calibration">Kalibracja</string>
+    <string name="qhybrid_title_apps_management">Zarządzanie aplikacjami</string>
+    <string name="qhybrid_title_file_management">Zarządzanie plikami</string>
+    <string name="qhybrid_title_background_image">Obraz tła</string>
+    <string name="qhybrid_title_apps">Aplikacje</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
 </resources>

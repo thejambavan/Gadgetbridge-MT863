@@ -95,7 +95,7 @@ public class GBDaoGenerator {
         addNotificationFilterEntry(schema, notificationFilter);
 
         addActivitySummary(schema, user, device);
-
+        addBatteryLevel(schema, device);
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
@@ -633,5 +633,15 @@ public class GBDaoGenerator {
         Entity entity = schema.addEntity(className);
         entity.addImport("de.greenrobot.dao.AbstractDao");
         return entity;
+    }
+
+    private static Entity addBatteryLevel(Schema schema, Entity device) {
+        Entity batteryLevel = addEntity(schema, "BatteryLevel");
+        batteryLevel.implementsSerializable();
+        batteryLevel.addIntProperty("timestamp").notNull().primaryKey();
+        Property deviceId = batteryLevel.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        batteryLevel.addToOne(device, deviceId);
+        batteryLevel.addIntProperty("level").notNull();
+        return batteryLevel;
     }
 }

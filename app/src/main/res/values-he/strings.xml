@@ -101,7 +101,7 @@
     <string name="pref_title_sunrise_sunset">זריחה ושקיעה</string>
     <string name="pref_summary_sunrise_sunset">שליחת מועדי זריחה ושקיעה בהתבסס על המיקום לציר הזמן של Pebble</string>
     <string name="pref_title_autoremove_notifications">הסרה אוטומטית של דיווחים שהתעלמת מהם</string>
-    <string name="pref_summary_autoremove_notifications">דיווחים מוסרים אוטומטית מה־Pebble כשהתעלמת מהם בהתקן האנדרואיד</string>
+    <string name="pref_summary_autoremove_notifications">דיווחים מוסרים אוטומטית מהמכשיר כשהתעלמת מהם בטלפון</string>
     <string name="pref_title_pebble_privacy_mode">מצב פרטיות</string>
     <string name="pref_pebble_privacy_mode_off">דיווחים רגילים</string>
     <string name="pref_pebble_privacy_mode_content">החלקת טקסט הדיווח אל מחוץ למסך</string>
@@ -1159,4 +1159,46 @@
     <string name="activity_DB_clean_export_directory_warning_title">למחוק קבצים בתיקיית ייצוא/ייבוא\?</string>
     <string name="activity_db_management_clean_export_directory_label">מחיקת קבצים בתיקיית ייצוא/ייבוא</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">שגיאה במחיקת קבצים מתיקיית הייצוא %1$s</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">אימון כוח</string>
+    <string name="mi">מייל</string>
+    <string name="minutes_mi">דקות למייל</string>
+    <string name="mi_h">מייל לשעה</string>
+    <string name="ft">רגל</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="battery_detail_activity_title">פרטים על הסוללה</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">פעולה זו תתקין את הקושחה %s ב־Amazfit X שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה ולאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="calendar_year">שנה</string>
+    <string name="calendar_six_months">6 חודשים</string>
+    <string name="calendar_month">חודש</string>
+    <string name="calendar_two_weeks">שבועיים</string>
+    <string name="calendar_week">שבוע</string>
+    <string name="calendar_day">יום</string>
+    <string name="battery_level">רמת הסוללה</string>
+    <string name="show_ongoing_activity">הצגת חלונית פעילות נוכחית</string>
+    <string name="dialog_hide">הסתרה</string>
+    <string name="calendar_three_months">3 חודשים</string>
+    <string name="fossil_hr_auth_failed">האימות נכשל, היכולות תוגבלנה</string>
+    <string name="fossil_hr_unavailable_unauthed">לא זמין במצב בלתי־מאומת</string>
+    <string name="fossil_hr_synced_activity_data">נתוני פעילות מסונכרנים</string>
+    <string name="fossil_hr_commute_processing">הבקשה בהליכי עיבוד…</string>
+    <string name="qhybrid_title_calibration">כיול</string>
+    <string name="qhybrid_title_apps_management">ניהול יישומונים</string>
+    <string name="qhybrid_title_file_management">ניהול קבצים</string>
+    <string name="qhybrid_title_background_image">תמונת רקע</string>
+    <string name="qhybrid_title_apps">יישומונים</string>
+    <string name="qhybrid_title_watchface_apps">פני השעון ויישומונים</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">חלק מהפונקציות מושבתות כיוון שהקושחה של השעון חדשה מדי</string>
 </resources>
