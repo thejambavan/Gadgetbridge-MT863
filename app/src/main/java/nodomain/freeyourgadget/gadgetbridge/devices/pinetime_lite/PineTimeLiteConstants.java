@@ -24,6 +24,22 @@ public class PineTimeLiteConstants {
     public static final UUID UUID_CHARACTERISTIC_MSG_NOTIFICATION = UUID.fromString("00020002-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT = UUID.fromString("00020001-78fc-48fe-8e23-433b3a1942d0");
 
+    public static final UUID UUID_SERVICE_FILE = UUID.fromString("00021000-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTIC_FILE = UUID.fromString("00021000-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CONTROL_FILE = UUID.fromString("00021001-78fc-48fe-8e23-433b3a1942d0");
+
+
+    public static final byte SUCCESS = 0x01;
+    public static final byte COMMAND_SEND_FIRMWARE_INFO = 0x02;
+
+    public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE, followed by fw file size in bytes
+    public static final byte COMMAND_FIRMWARE_UPDATE_SYNC = 0x00; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_START_DATA = 0x03; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_END_DATA = 0x06; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_CHECKSUM = 0x04; // to UUID_CHARACTERISTIC_FIRMWARE
+    public static final byte COMMAND_FIRMWARE_REBOOT = 0x05; // to UUID_CHARACTERISTIC_FIRMWARE
+
+
     // notification types and icons
     public static final byte NOTIFICATION_MISSED_CALL = (byte) 0x00;
     public static final byte NOTIFICATION_SMS = (byte) 0x01;
@@ -50,4 +66,6 @@ public class PineTimeLiteConstants {
     public static final String PREF_DO_NOT_DISTURB = "pinetime_do_not_disturb";
     public static final String PREF_SHOCK_STRENGTH = "pinetime_shock_strength";
     public static final String PREF_USER_STEP_GOAL = "activity_user_sleep_duration";
+
 }
+

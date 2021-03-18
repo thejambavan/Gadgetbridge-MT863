@@ -20,8 +20,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -33,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
     @NonNull
@@ -57,8 +61,13 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        PineTimeLiteInstallHandler handler = new PineTimeLiteInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+        try {
+            PineTimeLiteInstallHandler handler = new PineTimeLiteInstallHandler(uri, context);
+            return handler.isValid() ? handler : null;
+        } catch (IOException ex) {
+            GB.toast(context, context.getString(R.string.updatefirmwareoperation_write_failed) + ":" + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+            return null;
+        }
     }
 
     @Override
@@ -88,7 +97,7 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
@@ -103,7 +112,7 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsAppsManagement() {
-        return true;
+        return false;
     }
 
     @Override
@@ -128,7 +137,7 @@ public class PineTimeLiteCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return true;
+        return false;
     }
 
     @Override

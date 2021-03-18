@@ -28,6 +28,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
+
 /**
  * Abstract base class for a BTLEOperation, i.e. an operation that does more than
  * just sending a few bytes to the device. It typically involves exchanging many messages

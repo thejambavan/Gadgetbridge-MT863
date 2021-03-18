@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -52,9 +51,10 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PinetimeLiteFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -76,6 +76,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime_lite.operations.FirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -85,6 +86,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 //
 
 public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
+
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeLiteSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final int MaxNotificationLength = 100;
@@ -97,6 +99,17 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
     private BluetoothGattCharacteristic writeCharacteristic = null;
 
     private final DeviceInfoProfile<PineTimeLiteSupport> deviceInfoProfile;
+    private final IntentListener mListener = new IntentListener() {
+        @Override
+        public void notify(Intent intent) {
+            String s = intent.getAction();
+            if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(s)) {
+                handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+            }
+        }
+    };
+
+
     private final BatteryInfoProfile<PineTimeLiteSupport> batteryInfoProfile;
 
     public PineTimeLiteSupport() {
@@ -104,6 +117,7 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
 
         addSupportedService(PineTimeLiteConstants.UUID_SERVICE_MSG_NOTIFICATION);
         addSupportedService(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT);
+        addSupportedService(PineTimeLiteConstants.UUID_SERVICE_FILE);
 
         addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
@@ -111,18 +125,9 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         //addSupportedService(GattService.UUID_SERVICE_IMMEDIATE_ALERT);
         //addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
 
-        IntentListener mListenerInfo = new IntentListener() {
-            @Override
-            public void notify(Intent intent) {
-                String action = intent.getAction();
-                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
-                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-                }
-            }
-        };
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
-        deviceInfoProfile.addListener(mListenerInfo);
+        deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
 
         AlertNotificationProfile<PineTimeLiteSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
@@ -144,7 +149,6 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         batteryInfoProfile = new BatteryInfoProfile<>(this);
         batteryInfoProfile.addListener(mListenerBatt);
         addSupportedProfile(batteryInfoProfile);
-
     }
 
     @Override
@@ -153,16 +157,22 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         writeCharacteristic = getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+
         requestDeviceInfo(builder);
         onSetTime();
+        batteryInfoProfile.requestBatteryInfo(builder);
 
         BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeLiteConstants.UUID_CHARACTERISTIC_MSG_NOTIFICATION_EVENT);
         if (alertNotificationEventCharacteristic != null) {
             builder.notify(alertNotificationEventCharacteristic, true);
         }
+
+        //builder.notify(getCharacteristic(GattService.UUID_SERVICE_BATTERY_SERVICE), true);
+
+        //builder.notify(getCharacteristic(PineTimeLiteConstants.UUID_CONTROL_FILE), true);
+
         setInitialized(builder);
 
-        batteryInfoProfile.requestBatteryInfo(builder);
         return builder;
     }
 
@@ -601,10 +611,13 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
     @Override
     public void onInstallApp(Uri uri) {
         try {
-            handler = new PineTimeLiteInstallHandler(uri, getContext());
+            FirmwareOperation fwOperation = new FirmwareOperation(uri, this);
 
-            // TODO: Check validity more closely
-            if (true) {
+            if ( fwOperation.getFirmwareType() == PinetimeLiteFirmwareType.FIRMWARE ) {
+
+                // Is not a resource firmware, use DFU to upload the firmware...
+                fwOperation.done();
+
                 DfuServiceInitiator starter = new DfuServiceInitiator(getDevice().getAddress())
                         .setDeviceName(getDevice().getName())
                         .setKeepBond(true)
@@ -624,15 +637,12 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
                         .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, getContext().getString(R.string.devicestatus_upload_starting))
                 );
                 gbDevice.setBusyTask("firmware upgrade");
-            } else {
-                // TODO: Handle invalid firmware files
-            }
-        } catch (Exception ex) {
-            GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_write_failed) + ":" + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-            if (gbDevice.isBusy()) {
-                gbDevice.unsetBusyTask();
-            }
+            } else fwOperation.perform();
+
+        } catch (IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
+
     }
 
     @Override
@@ -843,6 +853,7 @@ public class PineTimeLiteSupport extends AbstractBTLEDeviceSupport implements Df
         LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         return false;
     }
+
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {

@@ -17,7 +17,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,37 +35,24 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
+
 
 public class PineTimeLiteInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeLiteInstallHandler.class);
 
-    private final Context context;
-    private boolean valid = false;
-    private String version = "Lite 1.0.0";
+    private Context context;
 
-    public PineTimeLiteInstallHandler(Uri uri, Context context) {
+    private FirmwareHelper fwHelper;
+
+    public PineTimeLiteInstallHandler(Uri uri, Context context) throws IOException {
+
         this.context = context;
-        UriHelper uriHelper;
-        try {
-            uriHelper = UriHelper.get(uri, this.context);
-        } catch (IOException e) {
-            valid = false;
-            return;
-        }
 
-        try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            byte[] bytes = new byte[32];
-            int read = in.read(bytes);
-            if (read < 32) {
-                valid = false;
-                return;
-            }
-        } catch (Exception e) {
-            valid = false;
-            return;
-        }
-        valid = true;
+        fwHelper = new FirmwareHelper(uri, context);
+
     }
 
     @Override
@@ -79,10 +69,20 @@ public class PineTimeLiteInstallHandler implements InstallHandler {
             return;
         }
 
+        if ( fwHelper.getFirmwareType() == PinetimeLiteFirmwareType.UKN ) {
+            installActivity.setInfoText("Firmware type is not supported.");
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
         GenericItem installItem = new GenericItem();
         installItem.setIcon(R.drawable.ic_firmware);
-        installItem.setName("PineTime Lite firmware");
-        installItem.setDetails(version);
+        if ( fwHelper.getFirmwareType() == PinetimeLiteFirmwareType.RES ) {
+            installItem.setName("PineTime Lite Resources");
+        } else {
+            installItem.setName("PineTime Lite Firmware");
+        }
+        installItem.setDetails(fwHelper.getHumanFirmwareVersion());
 
         installActivity.setInfoText(context.getString(R.string.firmware_install_warning, "1.0.0"));
         installActivity.setInstallEnabled(true);
@@ -97,6 +97,7 @@ public class PineTimeLiteInstallHandler implements InstallHandler {
 
     @Override
     public boolean isValid() {
-        return valid;
+        return fwHelper.checkValid();
     }
+
 }
