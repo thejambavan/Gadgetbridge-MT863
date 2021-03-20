@@ -97,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nut.NutCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime_lite.PineTimeLiteCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
@@ -292,6 +293,7 @@ public class DeviceHelper {
         result.add(new BangleJSCoordinator());
         result.add(new TLW64Coordinator());
         result.add(new PineTimeJFCoordinator());
+        result.add(new PineTimeLiteCoordinator());
         result.add(new SG2Coordinator());
         result.add(new LefunDeviceCoordinator());
         result.add(new SonySWR12DeviceCoordinator());

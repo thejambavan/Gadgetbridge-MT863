@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
+
 public class StartPpgRequest extends Request {
     public StartPpgRequest(LefunDeviceSupport support, TransactionBuilder builder) {
         super(support, builder);
