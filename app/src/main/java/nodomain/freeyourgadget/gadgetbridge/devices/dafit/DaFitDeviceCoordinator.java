@@ -79,7 +79,10 @@ public class DaFitDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         // TODO: It would be nice to also filter on "manufacturer" (which is used as a protocol version) being MOYOUNG-V2 or MOYOUNG but I have no idea if it's possible to do that at this point
-        if (candidate.supportsService(DaFitConstants.UUID_SERVICE_DAFIT)) {
+        // Bodge to get it to at lease connect to my DaFit device
+        String name = candidate.getDevice().getName();
+        if(name != null && name.startsWith("F22SA")){
+        //    if (candidate.supportsService(DaFitConstants.UUID_SERVICE_DAFIT)) {
             return DeviceType.DAFIT;
         }
         return DeviceType.UNKNOWN;
