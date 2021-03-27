@@ -26,27 +26,37 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-//import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitBand5FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
+
+//import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitBand5FWHelper;
 
 public class AmazfitNeoSupport extends MiBand5Support {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoSupport.class);
 
     @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        super.sendNotificationNew(notificationSpec, false);
+    }
+
+    @Override
     protected AmazfitNeoSupport setDisplayItems(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, false, R.array.pref_neo_display_items_default);
+        setDisplayItemsNew(builder, false, false, R.array.pref_neo_display_items_default);
         return this;
     }
 
-    //@Override
-    //protected AmazfitNeoSupport setShortcuts(TransactionBuilder builder) {
-    //    setDisplayItemsNew(builder, true, R.array.pref_amazfitband5_shortcuts_default);
-    //    return this;
-    //}
+    @Override
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitNeoFWHelper(uri, context);
+    }
 
-    //@Override
-    //public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-    //    return new AmazfitBand5FWHelper(uri, context);
-    //}
+    @Override
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperation2020(uri, this);
+    }
 }

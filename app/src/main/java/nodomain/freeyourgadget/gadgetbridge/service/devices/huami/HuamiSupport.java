@@ -147,6 +147,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
@@ -1876,32 +1877,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
             calendar.setTimeInMillis(calendarEvent.getBegin());
             byte[] title;
-            byte[] body;
             if (calendarEvent.getTitle() != null) {
                 title = calendarEvent.getTitle().getBytes();
             } else {
                 title = new byte[]{};
             }
-            if (calendarEvent.getDescription() != null) {
-                body = calendarEvent.getDescription().getBytes();
-            } else {
-                body = new byte[]{};
-            }
 
-            int length = 18 + title.length + 1 + body.length + 1;
+            int length = 1 + 1 + 4 + 6 + 6 + 1 + title.length + 1;
+
             ByteBuffer buf = ByteBuffer.allocate(length);
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 0x0b); // always 0x0b?
-            buf.put((byte) iteration); // îd
+            buf.put((byte) iteration); // id
             buf.putInt(0x08 | 0x04 | 0x01); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
             calendar.setTimeInMillis(calendarEvent.getBegin());
             buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
             calendar.setTimeInMillis(calendarEvent.getEnd());
             buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
-            buf.put(title);
             buf.put((byte) 0); // 0 Terminated
-            buf.put(body);
+            buf.put(title);
             buf.put((byte) 0); // 0 Terminated
             writeToChunked(builder, 2, buf.array());
 
@@ -1984,6 +1979,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case PREF_WEARLOCATION:
                     setWearLocation(builder);
+                    break;
+                case PREF_SOUNDS:
+                    setBeepSounds(builder);
                     break;
             }
             builder.queue(getQueue());
@@ -2448,10 +2446,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings) {
+    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, boolean forceWatchface, int defaultSettings) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
-        List<String> enabledList;
+        ArrayList<String> enabledList;
         byte menuType;
         if (isShortcuts) {
             menuType = (byte) 0xfd;
@@ -2463,22 +2461,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Setting menu items");
         }
         if (pages == null) {
-            enabledList = Arrays.asList(getContext().getResources().getStringArray(defaultSettings));
+            enabledList = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings)));
         } else {
-            enabledList = Arrays.asList(pages.split(","));
+            enabledList = new ArrayList<>(Arrays.asList(pages.split(",")));
+        }
+        if (forceWatchface) {
+            enabledList.add(0, "watchface");
         }
         LOG.info("enabled items" + enabledList);
-
-        byte[] command = new byte[(enabledList.size() + 1) * 4 + 1];
+        byte[] command = new byte[enabledList.size() * 4 + 1];
         command[0] = 0x1e;
 
         int pos = 1;
         int index = 0;
-
-        command[pos++] = (byte) index++;
-        command[pos++] = 0x00;
-        command[pos++] = menuType;
-        command[pos++] = 0x12;
 
         for (String key : enabledList) {
             Integer id = HuamiMenuType.idLookup.get(key);
@@ -2495,6 +2490,30 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setShortcuts(TransactionBuilder builder) {
+        return this;
+    }
+
+    protected HuamiSupport setBeepSounds(TransactionBuilder builder) {
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> sounds = prefs.getStringSet(PREF_SOUNDS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_amazfitneo_sounds_default))));
+
+        LOG.info("Setting sounds to " + (sounds == null ? "none" : sounds));
+
+
+        if (sounds != null) {
+            final String[] soundOrder = new String[]{"button", "calls", "alarm", "notifications", "inactivity_warning", "sms", "goal"};
+            byte[] command = new byte[]{0x3c, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 7, 0, 0};
+            int i = 3;
+            for (String sound : soundOrder) {
+                if (sounds.contains(sound)) {
+                    command[i] = 1;
+                }
+                i += 3;
+            }
+            writeToChunked(builder, 2, command);
+        }
+
         return this;
     }
 
